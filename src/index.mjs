@@ -1,30 +1,51 @@
-import lodash from "lodash";
 
-const { assign, each } = lodash;
+const {get} = require('lodash');
+const gitResponse = {
+    SPRACCNBR: '123456789',
+    // "QSEC.CURR": 'USD',
+    // "QSEC.AMOUNT": 4500,
 
-const data = {
-    t1: {
-        source: "10.1.2.3"
-    },
-    t2: {
-        source: "10.1.2.3"
+    QSEC:{
+        CURR: 'USD',
+        AMOUNT: 9000
+    }
+};
+
+// const ama = {
+//     event: 'response',
+//     data:{
+//         account: '1234567890',
+//         cur: 'EUR',
+//         balance: 2345
+//     }
+// }
+
+var account = {
+'123456789':{
+    currency: 'USD',
+    balance: 100000000
+}};
+
+
+const config = {
+    account: 'SPRACCNBR',
+    cur: 'QSEC.CURR',
+    balance: 'QSEC.AMOUNT',
+    address:{
+        street: 'QSEC.STREET'
     }
 }
-const payload = {
-    t1: {nRows: 400}
-}
-
-let newData = each(data, item => item['status']='pending')
-// console.info(JSON.stringify(newData, null, 2))
-//  newData = each(data, item => item['status']='start')
-// console.info(JSON.stringify(newData, null, 2))
+const data = {};
 
 
-each(data, (item, key) => {
-      if( key in payload) {
-          newData[key]= assign({}, item , payload[key], {status: 'qwert'});
-      }
-  })
-console.info(JSON.stringify(newData, null, 2))
+
+Object.keys(config).forEach(key =>{
+
+    data[key] = get(gitResponse, config[key]);
+})
+
+const res ={event: 'response', data}
 
 
+
+console.info(res);
