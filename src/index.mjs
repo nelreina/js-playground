@@ -11,7 +11,7 @@ const data = {
     }
 }
 const payload = {
-    t1: {nRows: 200}
+    t1: {nRows: 400}
 }
 
 let newData = each(data, item => item['status']='pending')
